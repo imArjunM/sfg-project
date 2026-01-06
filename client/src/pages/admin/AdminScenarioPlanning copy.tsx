@@ -1,0 +1,165 @@
+import { Layout } from '@/components/Layout';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import {
+  Clock,
+  Users,
+  ArrowRight,
+  BrainCircuit,
+  Globe,
+  Shield,
+  Zap,
+} from 'lucide-react';
+
+const scenarios = [
+  {
+    title: 'Urban Mobility 2030',
+    description:
+      'Analyzing the impact of autonomous drone taxis on city infrastructure and traffic patterns.',
+    progress: 75,
+    status: 'In Progress',
+    team: 12,
+    daysLeft: 14,
+    icon: Zap,
+    color: 'text-yellow-400',
+  },
+  {
+    title: 'Cyber Resilience Framework',
+    description:
+      'Developing robust defense mechanisms against quantum computing threats to national security.',
+    progress: 30,
+    status: 'Yet to Start',
+    team: 8,
+    daysLeft: 45,
+    icon: Shield,
+    color: 'text-primary',
+  },
+  {
+    title: 'Global Supply Chain AI',
+    description:
+      'Foresight into AI-driven supply chain disruptions and autonomous logistics corridors.',
+    progress: 100,
+    status: 'Completed',
+    team: 15,
+    daysLeft: 0,
+    icon: Globe,
+    color: 'text-blue-400',
+  },
+  {
+    title: 'Smart City Cognitive Grid',
+    description:
+      'Integration of IoT sensors with cognitive computing for real-time public safety monitoring.',
+    progress: 10,
+    status: 'Yet to Start',
+    team: 4,
+    daysLeft: 60,
+    icon: BrainCircuit,
+    color: 'text-purple-400',
+  },
+];
+
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case 'Completed':
+      return 'border-primary/30 text-primary bg-primary/10';
+    case 'In Progress':
+      return 'border-yellow-500/30 text-yellow-500 bg-yellow-500/10';
+    case 'Yet to Start':
+      return 'border-white/10 text-muted-foreground bg-white/5';
+    default:
+      return 'border-white/10 text-muted-foreground bg-white/5';
+  }
+};
+
+export default function AdminScenarioPlanning() {
+  return (
+    <Layout>
+      <div className='space-y-8'>
+        <div className='flex items-center justify-between'>
+          <div>
+            <h1 className='text-3xl font-bold text-white mb-2'>
+              Scenario Planning
+            </h1>
+            <p className='text-muted-foreground'>
+              Monitor strategic foresight scenarios (Read-Only)
+            </p>
+          </div>
+        </div>
+
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+          {scenarios.map((scenario, i) => (
+            <Card
+              key={i}
+              className='glass-card flex flex-col h-full group hover:border-primary/50 transition-all duration-300'
+            >
+              <CardHeader className='pb-2'>
+                <div className='flex justify-between items-start mb-2'>
+                  <div
+                    className={`p-2 rounded-lg bg-white/5 ${scenario.color}`}
+                  >
+                    <scenario.icon className='w-6 h-6' />
+                  </div>
+                  <Badge
+                    variant='secondary'
+                    className={`${getStatusColor(
+                      scenario.status
+                    )} transition-colors`}
+                  >
+                    {scenario.status}
+                  </Badge>
+                </div>
+                <CardTitle className='text-xl text-white group-hover:text-primary transition-colors'>
+                  {scenario.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className='flex-1 pb-4'>
+                <p className='text-muted-foreground text-sm leading-relaxed mb-6'>
+                  {scenario.description}
+                </p>
+                <div className='space-y-2'>
+                  <div className='flex justify-between text-xs text-muted-foreground'>
+                    <span>Progress</span>
+                    <span>{scenario.progress}%</span>
+                  </div>
+                  <Progress
+                    value={scenario.progress}
+                    className='h-1.5 bg-secondary/50'
+                  />
+                </div>
+              </CardContent>
+              <CardFooter className='pt-4 border-t border-white/5 flex justify-between items-center text-sm text-muted-foreground'>
+                <div className='flex gap-4'>
+                  <div className='flex items-center gap-1.5'>
+                    <Users className='w-3.5 h-3.5' />
+                    <span>{scenario.team} Members</span>
+                  </div>
+                  {scenario.status !== 'Completed' && (
+                    <div className='flex items-center gap-1.5'>
+                      <Clock className='w-3.5 h-3.5' />
+                      <span>{scenario.daysLeft}d left</span>
+                    </div>
+                  )}
+                </div>
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  className='hover:text-primary hover:bg-primary/10 -mr-2'
+                >
+                  <ArrowRight className='w-4 h-4' />
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </Layout>
+  );
+}

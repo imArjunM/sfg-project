@@ -1,0 +1,170 @@
+import { Layout } from '@/components/Layout';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Calendar as CalendarIcon,
+  MapPin,
+  Users,
+  Clock,
+  ChevronRight,
+} from 'lucide-react';
+
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case 'Completed':
+      return 'border-primary/30 text-primary bg-primary/10';
+    case 'In Progress':
+      return 'border-yellow-500/30 text-yellow-500 bg-yellow-500/10';
+    case 'Yet to Start':
+      return 'border-white/10 text-muted-foreground bg-white/5';
+    default:
+      return 'border-white/10 text-muted-foreground bg-white/5';
+  }
+};
+
+export default function AdminScenarioRetreat() {
+  return (
+    <Layout>
+      <div className='space-y-8'>
+        <div className='flex items-center justify-between'>
+          <div>
+            <h1 className='text-3xl font-bold text-white mb-2'>
+              Future Retreats
+            </h1>
+            <p className='text-muted-foreground'>
+              Coordinate strategic workshops (Read-Only)
+            </p>
+          </div>
+        </div>
+
+        <div className='space-y-6'>
+          {/* Active Retreat */}
+          <div className='relative overflow-hidden rounded-xl border border-primary/30 bg-card/40 backdrop-blur-md'>
+            <div className='absolute top-0 left-0 w-1 h-full bg-primary shadow-[0_0_15px_rgba(16,185,129,0.5)]'></div>
+            <div className='p-6 md:p-8 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between'>
+              <div className='space-y-4'>
+                <div className='flex items-center gap-3'>
+                  <Badge className='bg-primary text-primary-foreground hover:bg-primary/90'>
+                    In Progress
+                  </Badge>
+                  <span className='text-sm text-primary font-mono tracking-wider animate-pulse'>
+                    ● SESSION IN PROGRESS
+                  </span>
+                </div>
+                <div>
+                  <h2 className='text-2xl font-display font-bold text-white mb-2'>
+                    Future of Public Safety 2035
+                  </h2>
+                  <p className='text-muted-foreground max-w-2xl'>
+                    High-level strategic session focusing on integrating
+                    autonomous systems and AI into public safety protocols.
+                  </p>
+                </div>
+                <div className='flex flex-wrap gap-6 text-sm text-muted-foreground'>
+                  <div className='flex items-center gap-2'>
+                    <CalendarIcon className='w-4 h-4 text-primary' />
+                    <span>Oct 12-14, 2025</span>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <Clock className='w-4 h-4 text-primary' />
+                    <span>09:00 - 17:00</span>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <MapPin className='w-4 h-4 text-primary' />
+                    <span>Innovation Hub, Hall A</span>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <Users className='w-4 h-4 text-primary' />
+                    <span>24 Participants</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className='flex flex-col gap-3 w-full md:w-auto'>
+                <Button className='w-full md:w-40 bg-white/10 hover:bg-white/20 text-white border border-white/10'>
+                  View Agenda
+                </Button>
+                {/* Admin can join too, or maybe just view */}
+                <Button className='w-full md:w-40 bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_15px_rgba(16,185,129,0.3)]'>
+                  Join Session
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <h3 className='text-xl font-bold text-white mt-8 mb-4'>
+            Upcoming Retreats
+          </h3>
+
+          <div className='grid gap-4'>
+            {[
+              {
+                title: 'Cyber Defense Strategy Workshop',
+                date: 'Nov 05, 2025',
+                location: 'Digital HQ',
+                attendees: 15,
+                status: 'Yet to Start',
+              },
+              {
+                title: 'Smart Traffic Management Protocols',
+                date: 'Nov 18, 2025',
+                location: 'Command Center',
+                attendees: 30,
+                status: 'Yet to Start',
+              },
+              {
+                title: 'Community Policing AI Integration',
+                date: 'Dec 02, 2025',
+                location: 'Training Academy',
+                attendees: 45,
+                status: 'Completed',
+              },
+            ].map((retreat, i) => (
+              <Card
+                key={i}
+                className='glass-card hover:bg-white/[0.02] transition-colors cursor-pointer group'
+              >
+                <CardContent className='p-4 flex items-center justify-between'>
+                  <div className='flex items-center gap-6'>
+                    <div className='flex flex-col items-center justify-center w-16 h-16 rounded bg-white/5 border border-white/10'>
+                      <span className='text-xs text-muted-foreground uppercase'>
+                        {retreat.date.split(' ')[0]}
+                      </span>
+                      <span className='text-xl font-bold text-white'>
+                        {retreat.date.split(' ')[1].replace(',', '')}
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className='text-lg font-bold text-white group-hover:text-primary transition-colors'>
+                        {retreat.title}
+                      </h4>
+                      <div className='flex items-center gap-4 text-sm text-muted-foreground mt-1'>
+                        <span className='flex items-center gap-1'>
+                          <MapPin className='w-3 h-3' /> {retreat.location}
+                        </span>
+                        <span className='flex items-center gap-1'>
+                          <Users className='w-3 h-3' /> {retreat.attendees}{' '}
+                          Attending
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='flex items-center gap-4'>
+                    <Badge
+                      variant='secondary'
+                      className={getStatusColor(retreat.status)}
+                    >
+                      {retreat.status}
+                    </Badge>
+                    <ChevronRight className='w-5 h-5 text-muted-foreground group-hover:text-white transition-colors' />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
+}
